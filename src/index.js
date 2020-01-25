@@ -9,7 +9,7 @@ var pusher = new Pusher({
   key: "ef79256691597d1e299f",
   secret: "bfc07878d4f98629bbc2",
   cluster: "ap3",
-  encrypted: true
+  useTLS: true
 });
 
 app.get("/play", (req, res) => {
@@ -47,13 +47,25 @@ function humanReadableToSeconds(t) {
   return s;
 }
 
+var shows = {
+  Vagabond: 80,
+  Dbs: 120
+};
+
 app.get("/seek", (req, res) => {
   var HumanReadable = String(req.query.time);
   var seconds = humanReadableToSeconds(HumanReadable);
   res.send(`Seeked at ${HumanReadable}, ${seconds}`);
   pusher.trigger(channel, "seek", { data: seconds });
 });
+
+app.get("/skip_intro", (req, res) => {
+  var show = req.query.show;
+  res.send(String(shows[show]));
+  pusher.trigger(channel, "seek", { data: shows[show] });
+});
+
 app.get("/", (req, res) => {
-  res.send("Working");
+  res.send("OK!");
 });
 app.listen();
