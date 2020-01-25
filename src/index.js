@@ -61,7 +61,7 @@ app.get("/seek", (req, res) => {
 
 app.get("/skip_intro", (req, res) => {
   var show = req.query.show;
-  res.send(String(shows[show]));
+  res.send(`Skipped to ${String(shows[show])}`);
   pusher.trigger(channel, "seek", { data: shows[show] });
 });
 
