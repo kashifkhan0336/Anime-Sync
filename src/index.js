@@ -1,9 +1,11 @@
-var http = require("http");
+const express = require("express");
+const app = express();
+const Pusher = require("pusher");
 
-//create a server object:
-http
-  .createServer(function(req, res) {
-    res.write("Hello World!"); //write a response to the client
-    res.end(); //end the response
-  })
-  .listen(8080); //the server object listens on port 8080
+var pusher = new pusher({
+  appId: "935837",
+  key: "ef79256691597d1e299f",
+  secret: "bfc07878d4f98629bbc2",
+  cluster: "ap3",
+  encrypted: true
+});
